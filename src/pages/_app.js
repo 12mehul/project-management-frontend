@@ -1,8 +1,30 @@
 import "../app/globals.css";
 import React from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import AuthLayout from "./authLayout";
+import AdminLayout from "./adminLayout";
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  const { pathname } = router;
+
+  const renderLayout = () => {
+    if (pathname == "/" || pathname === "/login" || pathname === "/register") {
+      return (
+        <AuthLayout>
+          <Component {...pageProps} />
+        </AuthLayout>
+      );
+    } else {
+      return (
+        <AdminLayout>
+          <Component {...pageProps} />
+        </AdminLayout>
+      );
+    }
+  };
+
   return (
     <>
       <Head>
@@ -13,7 +35,7 @@ function MyApp({ Component, pageProps }) {
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
       </Head>
-      <Component {...pageProps} />
+      {renderLayout()}
     </>
   );
 }
