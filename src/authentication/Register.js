@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const Register = () => {
   return (
@@ -64,7 +65,7 @@ const Register = () => {
               <p className="font-medium text-slate-700 pb-2">Image</p>
               <div className="w-full flex">
                 <input id="img" name="img" type="file" hidden />
-                <div className="flex w-28 h-9 px-2 flex-col bg-indigo-600 hover:bg-indigo-500 rounded-full shadow text-white text-xs font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
+                <div className="flex w-28 h-9 px-2 flex-col bg-purple-600 hover:bg-purple-500 rounded-full shadow text-white text-xs font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
                   Choose File
                 </div>
               </div>
@@ -75,11 +76,11 @@ const Register = () => {
                 id="remember"
                 className="w-4 h-4 border-slate-200 focus:bg-indigo-600"
               />
-              <label htmlFor="remember" className="text-indigo-600">
+              <label htmlFor="remember" className="text-purple-600">
                 Remember me
               </label>
             </div>
-            <button className="w-full py-3 font-medium text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg border-indigo-500 hover:shadow inline-flex space-x-2 items-center justify-center">
+            <button className="w-full py-3 font-medium text-white bg-purple-600 hover:bg-purple-500 rounded-lg border-purple-500 hover:shadow inline-flex space-x-2 items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -100,9 +101,9 @@ const Register = () => {
         </form>
         <p className="flex gap-1 items-center justify-center">
           Registered yet?
-          <a
+          <Link
             href="/login"
-            className="text-indigo-600 font-medium inline-flex space-x-1 items-center"
+            className="text-teal-400 font-medium inline-flex space-x-1 items-center hover:text-purple-600"
           >
             <span>Login now</span>
             <span>
@@ -121,7 +122,7 @@ const Register = () => {
                 />
               </svg>
             </span>
-          </a>
+          </Link>
         </p>
       </div>
     </div>

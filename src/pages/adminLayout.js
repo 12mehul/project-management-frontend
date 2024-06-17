@@ -20,7 +20,7 @@ const AdminLayout = ({ children }) => {
         >
           <Sidebar />
         </div>
-        <div className="flex flex-col flex-grow bg-gray-100 p-5 overflow-y-auto">
+        <div className="flex flex-col flex-grow bg-purple-50 p-5 overflow-y-auto">
           {children}
         </div>
       </div>

@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LuDot } from "react-icons/lu";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Sidebar = () => {
+  const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  const isActive = (pathname) => router.pathname === pathname;
+
+  useEffect(() => {
+    if (router.pathname.startsWith("/admin/projects")) {
+      setIsDropdownOpen(true);
+    } else {
+      setIsDropdownOpen(false);
+    }
+  }, [router.pathname]);
 
   return (
     <aside
@@ -16,12 +29,19 @@ const Sidebar = () => {
       <div className="px-3 py-4 rounded">
         <ul className="space-y-2">
           <li>
-            <a
-              href="#"
-              className="flex items-center p-2 text-base font-semibold text-gray-900 rounded-lg group hover:bg-purple-100 hover:text-purple-600"
+            <Link
+              href="/admin"
+              passHref
+              className={`flex items-center p-2 text-base font-semibold rounded-lg group hover:bg-purple-100 hover:text-purple-600 ${
+                isActive("/admin")
+                  ? "bg-purple-100 text-purple-600"
+                  : "text-gray-900"
+              }`}
             >
               <svg
-                className="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-purple-600"
+                className={`w-6 h-6 transition duration-75 group-hover:text-purple-600 ${
+                  isActive("/admin") ? "text-purple-600" : "text-gray-500"
+                }`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -30,15 +50,22 @@ const Sidebar = () => {
                 <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
               </svg>
               <span className="ml-3">Dashboard</span>
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#"
-              className="flex items-center p-2 text-base font-semibold text-gray-900 rounded-lg group hover:bg-purple-100 hover:text-purple-600"
+            <Link
+              href="/admin/tasks"
+              passHref
+              className={`flex items-center p-2 text-base font-semibold rounded-lg group hover:bg-purple-100 hover:text-purple-600 ${
+                isActive("/admin/tasks")
+                  ? "bg-purple-100 text-purple-600"
+                  : "text-gray-900"
+              }`}
             >
               <svg
-                className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-purple-600"
+                className={`flex-shrink-0 w-6 h-6 transition duration-75 group-hover:text-purple-600 ${
+                  isActive("/admin/tasks") ? "text-purple-600" : "text-gray-500"
+                }`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -46,16 +73,26 @@ const Sidebar = () => {
                 <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
               </svg>
               <span className="flex-1 ml-3 whitespace-nowrap">Tasks</span>
-            </a>
+            </Link>
           </li>
           <li>
             <button
               type="button"
-              className="flex items-center w-full p-2 text-base font-semibold text-gray-900 transition duration-75 rounded-lg group hover:bg-purple-100 hover:text-purple-600"
+              className={`flex items-center w-full p-2 text-base font-semibold transition duration-75 rounded-lg group hover:bg-purple-100 hover:text-purple-600 ${
+                isActive("/admin/projects/list") ||
+                router.pathname.startsWith("/admin/projects")
+                  ? "bg-purple-100 text-purple-600"
+                  : "text-gray-900"
+              }`}
               onClick={toggleDropdown}
             >
               <svg
-                className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-purple-600"
+                className={`flex-shrink-0 w-6 h-6 transition duration-75 group-hover:text-purple-600 ${
+                  isActive("/admin/projects/list") ||
+                  router.pathname.startsWith("/admin/projects")
+                    ? "text-purple-600"
+                    : "text-gray-500"
+                }`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -70,8 +107,13 @@ const Sidebar = () => {
                 Projects
               </span>
               <svg
-                className={`w-6 h-6 ${
+                className={`w-6 h-6 group-hover:text-purple-600 ${
                   isDropdownOpen ? "transform rotate-180" : ""
+                } ${
+                  isActive("/admin/projects/list") ||
+                  router.pathname.startsWith("/admin/projects")
+                    ? "text-purple-600"
+                    : "text-gray-500"
                 }`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
@@ -87,39 +129,70 @@ const Sidebar = () => {
             {isDropdownOpen && (
               <ul id="dropdown-example" className="py-2 space-y-2">
                 <li>
-                  <a
-                    href="#"
-                    className="flex items-center w-full p-2 text-base font-semibold text-gray-900 transition duration-75 rounded-lg group hover:bg-purple-100 hover:text-purple-600 pl-11"
+                  <Link
+                    href="/admin/projects/list"
+                    passHref
+                    className={`flex items-center w-full p-2 text-base font-semibold transition duration-75 rounded-lg group hover:bg-purple-100 hover:text-purple-600 pl-11 ${
+                      isActive("/admin/projects/list") ||
+                      isActive("/admin/projects/[id]") ||
+                      isActive("/admin/projects/edit/[id]")
+                        ? "text-purple-600"
+                        : "text-gray-900"
+                    }`}
                   >
                     <LuDot
                       size={30}
-                      className="mr-2 flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 group-hover:text-purple-600"
+                      className={`mr-2 flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-purple-600 ${
+                        isActive("/admin/projects/list") ||
+                        isActive("/admin/projects/[id]") ||
+                        isActive("/admin/projects/edit/[id]")
+                          ? "text-purple-600"
+                          : "text-gray-500"
+                      }`}
                     />
                     Lists
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="flex items-center w-full p-2 text-base font-semibold text-gray-900 transition duration-75 rounded-lg group hover:bg-purple-100 hover:text-purple-600 pl-11"
+                  <Link
+                    href="/admin/projects/create"
+                    passHref
+                    className={`flex items-center w-full p-2 text-base font-semibold transition duration-75 rounded-lg group hover:bg-purple-100 hover:text-purple-600 pl-11 ${
+                      isActive("/admin/projects/create")
+                        ? "text-purple-600"
+                        : "text-gray-900"
+                    }`}
                   >
                     <LuDot
                       size={30}
-                      className="mr-2 flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 group-hover:text-purple-600"
+                      className={`mr-2 flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-purple-600 ${
+                        isActive("/admin/projects/create")
+                          ? "text-purple-600"
+                          : "text-gray-500"
+                      }`}
                     />
                     Create
-                  </a>
+                  </Link>
                 </li>
               </ul>
             )}
           </li>
           <li>
-            <a
-              href="#"
-              className="flex items-center p-2 text-base font-semibold text-gray-900 rounded-lg group hover:bg-purple-100 hover:text-purple-600"
+            <Link
+              href="/admin/profile"
+              passHref
+              className={`flex items-center p-2 text-base font-semibold rounded-lg group hover:bg-purple-100 hover:text-purple-600 ${
+                isActive("/admin/profile")
+                  ? "bg-purple-100 text-purple-600"
+                  : "text-gray-900"
+              }`}
             >
               <svg
-                className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-purple-600"
+                className={`flex-shrink-0 w-6 h-6 transition duration-75 group-hover:text-purple-600 ${
+                  isActive("/admin/profile")
+                    ? "text-purple-600"
+                    : "text-gray-500"
+                }`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +204,7 @@ const Sidebar = () => {
                 ></path>
               </svg>
               <span className="flex-1 ml-3 whitespace-nowrap">Profile</span>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
