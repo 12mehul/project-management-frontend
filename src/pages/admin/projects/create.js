@@ -5,7 +5,7 @@ import ProjectForm from "@/components/projects/ProjectForm";
 const ProjectCreate = () => {
   const breadcrumbData = [
     {
-      href: "/admin/projects",
+      href: "/admin/projects/list",
       label: "Projects",
     },
     {

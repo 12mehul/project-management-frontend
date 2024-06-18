@@ -5,7 +5,7 @@ import ProjectDetails from "@/components/projects/ProjectDetails";
 const Index = () => {
   const breadcrumbData = [
     {
-      href: "/admin/projects",
+      href: "/admin/projects/list",
       label: "Projects",
     },
     {

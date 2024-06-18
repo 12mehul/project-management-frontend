@@ -1,13 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import Loader from "@/components/common/Loader";
 
 const Login = () => {
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [loader, setLoader] = useState(false);
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!data.email) {
+      newErrors.email = "Email is required";
+    }
+    if (!data.password) {
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoader(true);
+    if (!validateForm()) {
+      setLoader(false);
+      return;
+    }
+    validateForm();
+  };
+
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="max-w-lg w-full mx-auto bg-white p-8 rounded-xl shadow shadow-slate-300">
         <h1 className="text-4xl font-medium">Login</h1>
         <p className="text-slate-500">Hi, Welcome back 👋</p>
-        <form className="my-8">
+        <form className="my-8" onSubmit={handleSubmit}>
           <div className="flex flex-col space-y-5">
             <label htmlFor="email">
               <p className="font-medium text-slate-700 pb-2">Email Address</p>
@@ -15,9 +55,12 @@ const Login = () => {
                 id="email"
                 name="email"
                 type="email"
+                value={data.email}
+                onChange={handleChange}
                 className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow"
                 placeholder="Enter email address"
               />
+              <p className="text-red-500 pt-2">{errors.email}</p>
             </label>
             <label htmlFor="password">
               <p className="font-medium text-slate-700 pb-2">Password</p>
@@ -25,9 +68,12 @@ const Login = () => {
                 id="password"
                 name="password"
                 type="password"
+                value={data.password}
+                onChange={handleChange}
                 className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow"
                 placeholder="Enter your password"
               />
+              <p className="text-red-500 pt-2">{errors.password}</p>
             </label>
             <div className="flex items-center gap-2">
               <input
@@ -39,21 +85,29 @@ const Login = () => {
                 Remember me
               </label>
             </div>
-            <button className="w-full py-3 font-medium text-white bg-purple-600 hover:bg-purple-500 rounded-lg border-purple-500 hover:shadow inline-flex space-x-2 items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                />
-              </svg>
+            <button
+              className="w-full py-3 font-medium text-white bg-purple-600 hover:bg-purple-500 rounded-lg border-purple-500 hover:shadow inline-flex space-x-2 items-center justify-center"
+              type="submit"
+              disabled={loader}
+            >
+              {loader ? (
+                <Loader />
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                  />
+                </svg>
+              )}
               <span>Login</span>
             </button>
           </div>
