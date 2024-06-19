@@ -66,7 +66,7 @@ const ProjectForm = () => {
           </div>
           <div className="-mx-3 flex flex-wrap">
             <div className="w-full px-3 sm:w-1/2">
-              <div className="mb-5">
+              <div className="mb-8">
                 <label className="mb-3 block text-base font-medium text-[#07074D]">
                   Upload Image
                 </label>

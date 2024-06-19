@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import Link from "next/link";
 
-const Header = ({ toggleSidebar }) => {
+const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -11,16 +11,13 @@ const Header = ({ toggleSidebar }) => {
 
   return (
     <div className="relative">
-      <div className="py-2 px-6 bg-white flex items-center shadow-md shadow-black/5 sticky top-0 left-0 z-30">
-        <Link
-          href="/admin"
-          className="flex items-center pb-2 border-b border-b-gray-800"
+      <div className="py-3 px-6 bg-white flex items-center shadow-md shadow-black/5 top-0 z-30">
+        <button
+          aria-controls="sidebar"
+          aria-expanded={isSidebarOpen}
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="lg:hidden"
         >
-          <h2 className="font-bold text-2xl text-gray-900 transition p-2 duration-75 rounded-lg hover:bg-purple-100 hover:text-purple-600">
-            DASHBOARD
-          </h2>
-        </Link>
-        <button onClick={toggleSidebar}>
           <IoReorderThreeOutline className="text-3xl text-gray-500 ml-8 hover:text-purple-600" />
         </button>
         <ul className="ml-auto flex items-center">

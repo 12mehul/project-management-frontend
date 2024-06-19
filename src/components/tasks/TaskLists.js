@@ -9,8 +9,8 @@ const TaskLists = () => {
   ];
 
   return (
-    <div className="p-6">
-      <div className="w-full text-gray-700 body-font bg-white p-8 rounded-xl shadow-2xl">
+    <div className="pt-6">
+      <div className="w-full text-gray-700 body-font bg-white p-6 rounded-xl shadow-2xl">
         <div className="flex justify-between">
           <div className="w-full mb-1">
             <Select
@@ -21,7 +21,7 @@ const TaskLists = () => {
           </div>
         </div>
         <div className="w-full flex gap-3 overflow-x-auto">
-          <div className="mt-2 w-Full p-4 shadow-md rounded-lg border border-teal-400">
+          <div className="mt-2 w-full p-4 shadow-md rounded-lg border border-teal-400">
             <div className="flex pb-4">
               <p className="font-semibold text-lg text-gray-700">Todo</p>
             </div>
@@ -40,7 +40,7 @@ const TaskLists = () => {
               </div>
             </div>
           </div>
-          <div className="mt-2 w-Full p-4 shadow-md rounded-lg border border-teal-400">
+          <div className="mt-2 w-full p-4 shadow-md rounded-lg border border-teal-400">
             <div className="flex pb-4">
               <p className="font-semibold text-lg text-gray-700">In Progress</p>
             </div>
@@ -59,7 +59,7 @@ const TaskLists = () => {
               </div>
             </div>
           </div>
-          <div className="mt-2 w-Full p-4 shadow-md rounded-lg border border-teal-400">
+          <div className="mt-2 w-full p-4 shadow-md rounded-lg border border-teal-400">
             <div className="flex pb-4">
               <p className="font-semibold text-lg text-gray-700">In Review</p>
             </div>
@@ -78,7 +78,7 @@ const TaskLists = () => {
               </div>
             </div>
           </div>
-          <div className="mt-2 w-Full p-4 shadow-md rounded-lg border border-teal-400">
+          <div className="mt-2 w-full p-4 shadow-md rounded-lg border border-teal-400">
             <div className="flex pb-4">
               <p className="font-semibold text-lg text-gray-700">Completed</p>
             </div>

@@ -18,9 +18,9 @@ const ProjectDetails = () => {
 
   return (
     <>
-      <div className="p-6">
-        <section className="text-gray-700 body-font bg-white p-8 rounded-xl shadow-2xl">
-          <div className="container px-5 mx-auto">
+      <div className="pt-6">
+        <section className="text-gray-700 body-font bg-white p-6 rounded-xl shadow-2xl">
+          <div className="container mx-auto">
             <div className="w-full mx-auto flex flex-wrap">
               <img
                 alt="ecommerce"
@@ -222,7 +222,7 @@ const ProjectDetails = () => {
             </div>
           </div>
         </section>
-        <div className="w-full text-gray-700 body-font bg-white p-8 rounded-xl shadow-2xl mt-4">
+        <div className="w-full text-gray-700 body-font bg-white p-6 rounded-xl shadow-2xl mt-4">
           <div className="flex justify-between">
             <h1 className="text-gray-900 text-2xl title-font font-medium mb-1">
               Tasks
@@ -236,7 +236,7 @@ const ProjectDetails = () => {
             </button>
           </div>
           <div className="w-full flex gap-3 overflow-x-auto">
-            <div className="mt-2 w-Full p-4 shadow-md rounded-lg border border-teal-400">
+            <div className="mt-2 w-full p-4 shadow-md rounded-lg border border-teal-400">
               <div className="flex pb-4">
                 <p className="font-semibold text-lg text-gray-700">Todo</p>
               </div>
@@ -260,7 +260,7 @@ const ProjectDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-2 w-Full p-4 shadow-md rounded-lg border border-teal-400">
+            <div className="mt-2 w-full p-4 shadow-md rounded-lg border border-teal-400">
               <div className="flex pb-4">
                 <p className="font-semibold text-lg text-gray-700">
                   In Progress
@@ -281,7 +281,7 @@ const ProjectDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-2 w-Full p-4 shadow-md rounded-lg border border-teal-400">
+            <div className="mt-2 w-full p-4 shadow-md rounded-lg border border-teal-400">
               <div className="flex pb-4">
                 <p className="font-semibold text-lg text-gray-700">In Review</p>
               </div>
@@ -300,7 +300,7 @@ const ProjectDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-2 w-Full p-4 shadow-md rounded-lg border border-teal-400">
+            <div className="mt-2 w-full p-4 shadow-md rounded-lg border border-teal-400">
               <div className="flex pb-4">
                 <p className="font-semibold text-lg text-gray-700">Completed</p>
               </div>
