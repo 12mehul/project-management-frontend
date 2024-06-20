@@ -21,10 +21,7 @@ const TaskForm = ({ taskId, handleCloseModal }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setTaskData({
-      ...taskData,
-      [name]: value,
-    });
+    setTaskData({ ...taskData, [name]: value });
   };
 
   const validateForm = () => {

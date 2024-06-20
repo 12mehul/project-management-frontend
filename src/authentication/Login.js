@@ -26,10 +26,8 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setData({
-      ...data,
-      [name]: value,
-    });
+    setData({ ...data, [name]: value });
+    setErrors({ ...errors, [name]: "" });
   };
 
   const handleSubmit = (e) => {
