@@ -222,7 +222,7 @@ const ProjectDetails = () => {
             </div>
           </div>
         </section>
-        <div className="w-full text-gray-700 body-font bg-white p-6 rounded-xl shadow-2xl mt-4">
+        <div className="w-full text-gray-700 body-font bg-white p-2 rounded-xl shadow-2xl mt-4">
           <div className="flex justify-between">
             <h1 className="text-gray-900 text-2xl title-font font-medium mb-1">
               Tasks
@@ -236,13 +236,13 @@ const ProjectDetails = () => {
             </button>
           </div>
           <div className="w-full flex gap-3 overflow-x-auto">
-            <div className="mt-2 w-full p-4 shadow-md rounded-lg border border-teal-400">
+            <div className="mt-2 min-w-[280px] h-full p-2 shadow-md rounded-lg border border-teal-400">
               <div className="flex pb-4">
-                <p className="font-semibold text-lg text-gray-700">Todo</p>
+                <p className="font-semibold text-lg text-gray-700 pt-1">Todo</p>
               </div>
-              <div className="flex flex-col gap-1">
-                <div className="flex border items-center rounded-md transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
-                  <div className="p-10">
+              <div className="flex flex-col gap-2">
+                <div className="min-w-[260px] min-h-[180px] flex border-t-2 border-blue-500 rounded-md transition duration-500 shadow-md hover:shadow-teal-400">
+                  <div className="p-2">
                     <p
                       onClick={() => handleShowModal(1)}
                       className="font-semibold text-lg cursor-pointer"
@@ -252,67 +252,59 @@ const ProjectDetails = () => {
                     <span className="text-gray-600">Description of tool</span>
                   </div>
                 </div>
-                <div className="flex border items-center rounded-md transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
-                  <div className="p-10">
-                    <p className="font-semibold text-lg">Tool with sidebar</p>
-                    <span className="text-gray-600">Description of tool</span>
-                  </div>
-                </div>
               </div>
             </div>
-            <div className="mt-2 w-full p-4 shadow-md rounded-lg border border-teal-400">
+            <div className="mt-2 min-w-[280px] h-full p-2 shadow-md rounded-lg border border-teal-400">
               <div className="flex pb-4">
-                <p className="font-semibold text-lg text-gray-700">
+                <p className="font-semibold text-lg text-gray-700 pt-1">
                   In Progress
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
-                <div className="flex border items-center rounded-md transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
-                  <div className="p-10">
-                    <p className="font-semibold text-lg">Tool with sidebar</p>
-                    <span className="text-gray-600">Description of tool</span>
-                  </div>
-                </div>
-                <div className="flex border items-center rounded-md transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
-                  <div className="p-10">
+              <div className="flex flex-col gap-2">
+                <div className="min-w-[260px] min-h-[180px] flex border-t-2 border-yellow-500 rounded-md transition duration-500 shadow-md hover:shadow-teal-400">
+                  <div className="p-2">
                     <p className="font-semibold text-lg">Tool with sidebar</p>
                     <span className="text-gray-600">Description of tool</span>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="mt-2 w-full p-4 shadow-md rounded-lg border border-teal-400">
+            <div className="mt-2 min-w-[280px] h-full p-2 shadow-md rounded-lg border border-teal-400">
               <div className="flex pb-4">
-                <p className="font-semibold text-lg text-gray-700">In Review</p>
+                <p className="font-semibold text-lg text-gray-700 pt-1">
+                  In Review
+                </p>
               </div>
-              <div className="flex flex-col gap-1">
-                <div className="flex border items-center rounded-md transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
-                  <div className="p-10">
+              <div className="flex flex-col gap-2">
+                <div className="min-w-[260px] min-h-[180px] flex border-t-2 border-orange-600 rounded-md transition duration-500 shadow-md hover:shadow-teal-400">
+                  <div className="p-2">
                     <p className="font-semibold text-lg">Tool with sidebar</p>
                     <span className="text-gray-600">Description of tool</span>
                   </div>
                 </div>
-                <div className="flex border items-center rounded-md transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
-                  <div className="p-10">
+                <div className="min-w-[260px] min-h-[180px] flex border-t-2 border-orange-600 rounded-md transition duration-500 shadow-md hover:shadow-teal-400">
+                  <div className="p-2">
                     <p className="font-semibold text-lg">Tool with sidebar</p>
                     <span className="text-gray-600">Description of tool</span>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="mt-2 w-full p-4 shadow-md rounded-lg border border-teal-400">
+            <div className="mt-2 min-w-[280px] h-full p-2 shadow-md rounded-lg border border-teal-400">
               <div className="flex pb-4">
-                <p className="font-semibold text-lg text-gray-700">Completed</p>
+                <p className="font-semibold text-lg text-gray-700 pt-1">
+                  Completed
+                </p>
               </div>
-              <div className="flex flex-col gap-1">
-                <div className="flex border items-center rounded-md transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
-                  <div className="p-10">
+              <div className="flex flex-col gap-2">
+                <div className="min-w-[260px] min-h-[180px] flex border-t-2 border-green-600 rounded-md transition duration-500 shadow-md hover:shadow-teal-400">
+                  <div className="p-2">
                     <p className="font-semibold text-lg">Tool with sidebar</p>
                     <span className="text-gray-600">Description of tool</span>
                   </div>
                 </div>
-                <div className="flex border items-center rounded-md transition duration-500 shadow-sm hover:shadow-md hover:shadow-teal-400">
-                  <div className="p-10">
+                <div className="min-w-[260px] min-h-[180px] flex border-t-2 border-green-600 rounded-md transition duration-500 shadow-md hover:shadow-teal-400">
+                  <div className="p-2">
                     <p className="font-semibold text-lg">Tool with sidebar</p>
                     <span className="text-gray-600">Description of tool</span>
                   </div>
