@@ -1,5 +1,5 @@
 import React from "react";
-import Login from "src/authentication/Login";
+import Login from "@/authentication/Login";
 
 const Index = () => {
   return <Login />;

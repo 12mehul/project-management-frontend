@@ -4,6 +4,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import AuthLayout from "./authLayout";
 import AdminLayout from "./adminLayout";
+import { Provider } from "react-redux";
+import { store, wrapper } from "@/redux/store";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -35,9 +37,9 @@ function MyApp({ Component, pageProps }) {
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
       </Head>
-      {renderLayout()}
+      <Provider store={store}>{renderLayout()}</Provider>
     </>
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

@@ -1,5 +1,5 @@
 import React from "react";
-import Register from "src/authentication/Register";
+import Register from "@/authentication/Register";
 
 const Index = () => {
   return <Register />;
