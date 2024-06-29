@@ -5,8 +5,10 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 const labels = ["Completed", "In Progress", "Not Started"];
 
 function getChartData() {
+  const series = [0, 15, 10];
+  const total = series.reduce((acc, value) => acc + value, 0);
   return {
-    series: [90, 80, 70],
+    series,
     options: {
       chart: {
         width: "100%",
@@ -37,6 +39,9 @@ function getChartData() {
               fontFamily: '"Jost", sans-serif',
               fontWeight: 600,
               offsetY: -21,
+              formatter(val) {
+                return `${val}`;
+              },
             },
             total: {
               show: true,
@@ -46,7 +51,7 @@ function getChartData() {
               fontWeight: 500,
               color: "#404040",
               formatter() {
-                return "60%";
+                return `${total}`;
               },
             },
           },

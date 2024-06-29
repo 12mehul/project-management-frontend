@@ -1,13 +1,110 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BreadcrumbItems from "@/components/common/BreadcrumbItems";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import axios from "axios";
+import toast from "react-hot-toast";
+import Loader from "@/components/common/Loader";
+
+const breadcrumbData = [
+  {
+    href: "/admin/profile",
+    label: "Profile",
+  },
+];
 
 const Profile = () => {
-  const breadcrumbData = [
-    {
-      href: "/admin/profile",
-      label: "Profile",
-    },
-  ];
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const router = useRouter();
+
+  const [data, setData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    img: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [loader, setLoader] = useState(false);
+  const userData = useSelector((state) => state.profile.data);
+
+  const userId =
+    typeof window !== "undefined" ? localStorage.getItem("userId") : null;
+
+  useEffect(() => {
+    if (userData) {
+      setData({
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        email: userData.email,
+        img: userData.img,
+      });
+    }
+  }, [userData]);
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (data.password && data.password !== data.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData({ ...data, [name]: value });
+    setErrors({ ...errors, confirmPassword: "" });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const maxSize = 200 * 1024;
+
+    if (file && file.size > maxSize) {
+      setErrors({ ...errors, img: "Image size exceeds 200.00 KB limit." });
+      return;
+    }
+
+    setData({ ...data, img: file });
+    setErrors({ ...errors, img: "" });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+    setLoader(true);
+
+    const formData = new FormData();
+    formData.append("firstname", data.firstname);
+    formData.append("lastname", data.lastname);
+    formData.append("email", data.email);
+    formData.append("img", data.img);
+    if (data.password) {
+      formData.append("password", data.password);
+    }
+
+    axios
+      .put(`${apiUrl}/users/update/${userId}`, formData)
+      .then((res) => {
+        toast.success(res.data.msg);
+        setLoader(false);
+        setTimeout(() => {
+          router.reload();
+        }, 3000);
+      })
+      .catch((err) => {
+        if (err) {
+          setLoader(false);
+          toast.error(err.response.data.msg);
+        }
+      });
+  };
 
   return (
     <div>
@@ -19,7 +116,7 @@ const Profile = () => {
       </div>
       <div className="flex items-center justify-center p-6">
         <div className="mx-auto w-full bg-white max-w-3xl p-8 rounded-xl shadow-2xl">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="-mx-3 flex flex-wrap">
               <div className="w-full px-3 sm:w-1/2">
                 <div className="mb-5">
@@ -29,8 +126,10 @@ const Profile = () => {
                   <input
                     type="text"
                     name="firstname"
+                    value={data.firstname}
+                    onChange={handleChange}
                     placeholder="First Name"
-                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 capitalize px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
                   />
                 </div>
               </div>
@@ -42,8 +141,10 @@ const Profile = () => {
                   <input
                     type="text"
                     name="lastname"
+                    value={data.lastname}
+                    onChange={handleChange}
                     placeholder="Last Name"
-                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 capitalize px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
                   />
                 </div>
               </div>
@@ -55,6 +156,8 @@ const Profile = () => {
               <input
                 type="email"
                 name="email"
+                value={data.email}
+                onChange={handleChange}
                 placeholder="Enter Email"
                 className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
               />
@@ -68,6 +171,8 @@ const Profile = () => {
                   <input
                     type="password"
                     name="password"
+                    value={data.password}
+                    onChange={handleChange}
                     placeholder="Enter Password"
                     className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
                   />
@@ -81,10 +186,13 @@ const Profile = () => {
                   <input
                     type="password"
                     name="confirmPassword"
+                    value={data.confirmPassword}
+                    onChange={handleChange}
                     placeholder="Enter Confirm Password"
                     className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
                   />
                 </div>
+                <p className="text-red-500">{errors.confirmPassword}</p>
               </div>
             </div>
             <div className="mb-5">
@@ -93,7 +201,13 @@ const Profile = () => {
               </label>
               <div className="flex items-center space-x-6">
                 <div className="relative bg-white/90 rounded-full w-full h-6 text-center">
-                  <input type="file" name="img" id="img" hidden required />
+                  <input
+                    id="img"
+                    name="img"
+                    type="file"
+                    onChange={handleImageChange}
+                    hidden
+                  />
                   <label
                     htmlFor="img"
                     className="absolute top-0 left-0 w-full flex justify-between appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
@@ -124,11 +238,14 @@ const Profile = () => {
                 </div>
               </div>
             </div>
+            <p className="text-red-500 pt-5">{errors.img}</p>
             <div>
               <button
                 type="submit"
-                className="mt-5 hover:shadow-form rounded-md bg-purple-600 hover:bg-purple-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
+                className="mt-5 hover:shadow-form rounded-md bg-purple-600 hover:bg-purple-500 py-3 px-8 inline-flex gap-1 space-x-2 items-center justify-center text-base font-semibold text-white outline-none"
+                disabled={loader}
               >
+                {loader && <Loader />}
                 Update
               </button>
             </div>

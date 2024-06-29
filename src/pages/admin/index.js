@@ -4,7 +4,7 @@ import BreadcrumbItems from "@/components/common/BreadcrumbItems";
 import ProjectChart from "@/components/dashboard/ProjectChart";
 import TaskChart from "@/components/dashboard/TaskChart";
 
-export default function Home() {
+export default function Dashboard() {
   return (
     <div>
       <div className="flex justify-between">

@@ -1,7 +1,16 @@
 import React from "react";
+import Dashboard from "./admin";
+import Login from "@/authentication/Login";
+
+const isUserLoggedIn = () => {
+  const isLoggedIn = false;
+  return isLoggedIn;
+};
 
 const Home = () => {
-  return <div className="text-red-800">Welcome to the Project Management App</div>;
+  const isLoggedIn = isUserLoggedIn();
+
+  return isLoggedIn ? <Dashboard /> : <Login />;
 };
 
 export default Home;

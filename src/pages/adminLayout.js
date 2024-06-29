@@ -1,11 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "@/layout/header";
 import Sidebar from "@/layout/sidebar";
 import { useRouter } from "next/router";
+import { jwtDecode } from "jwt-decode";
 
 const AdminLayout = ({ children }) => {
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+  const isTokenExpired = (token) => {
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      return decodedToken.exp < currentTime;
+    } catch (err) {
+      return true;
+    }
+  };
+
+  useEffect(() => {
+    if (!token) return;
+    if (isTokenExpired(token)) {
+      window.location.href = "/";
+      localStorage.clear();
+      console.log("Token expired");
+      return;
+    }
+    console.log("Token is valid");
+  }, [token]);
+
+  useEffect(() => {
+    if (
+      !token &&
+      !router.pathname.startsWith("/login") &&
+      !router.pathname.startsWith("/register")
+    ) {
+      router.push("/");
+    }
+  }, [router, token]);
 
   return (
     <div className="flex min-h-screen">
