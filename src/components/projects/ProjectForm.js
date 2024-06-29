@@ -150,7 +150,7 @@ const ProjectForm = () => {
     <div className="flex items-center justify-center p-8">
       <div className="mx-auto w-full bg-white p-8 rounded-xl shadow-2xl">
         <form onSubmit={handleSubmit}>
-          <div className="mb-5">
+          <div>
             <label className="mb-3 block text-base font-medium text-[#07074D]">
               Project Name
             </label>
@@ -162,9 +162,9 @@ const ProjectForm = () => {
               placeholder="Project Name"
               className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
             />
-            <p className="text-red-500 pt-2">{errors.projectName}</p>
+            <p className="text-red-500">{errors.projectName}</p>
           </div>
-          <div className="mb-5">
+          <div className="mt-3">
             <label className="mb-3 block text-base font-medium text-[#07074D]">
               Description
             </label>
@@ -176,9 +176,9 @@ const ProjectForm = () => {
               placeholder="Enter Description"
               className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
             />
-            <p className="text-red-500 pt-2">{errors.description}</p>
+            <p className="text-red-500">{errors.description}</p>
           </div>
-          <div className="mb-5">
+          <div className="mt-3">
             <label className="mb-3 block text-base font-medium text-[#07074D]">
               Budget
             </label>
@@ -190,11 +190,11 @@ const ProjectForm = () => {
               placeholder="Enter Budget"
               className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
             />
-            <p className="text-red-500 pt-2">{errors.budget}</p>
+            <p className="text-red-500">{errors.budget}</p>
           </div>
           <div className="-mx-3 flex flex-wrap">
             <div className="w-full px-3 sm:w-1/2">
-              <div className="mb-5">
+              <div className="mt-3">
                 <label className="mb-3 block text-base font-medium text-[#07074D]">
                   Start Date
                 </label>
@@ -203,7 +203,7 @@ const ProjectForm = () => {
                   name="startDate"
                   value={
                     data.startDate
-                      ? data.startDate.split("T")[1]
+                      ? data.startDate.split("T")[0]
                       : data.startDate
                   }
                   onChange={handleChange}
@@ -213,7 +213,7 @@ const ProjectForm = () => {
               <p className="text-red-500">{errors.startDate}</p>
             </div>
             <div className="w-full px-3 sm:w-1/2">
-              <div className="mb-5">
+              <div className="mt-3">
                 <label className="mb-3 block text-base font-medium text-[#07074D]">
                   Due Date
                 </label>
@@ -221,7 +221,7 @@ const ProjectForm = () => {
                   type="date"
                   name="dueDate"
                   value={
-                    data.dueDate ? data.dueDate.split("T")[1] : data.dueDate
+                    data.dueDate ? data.dueDate.split("T")[0] : data.dueDate
                   }
                   onChange={handleChange}
                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
@@ -231,8 +231,8 @@ const ProjectForm = () => {
             </div>
           </div>
           <div className="-mx-3 flex flex-wrap">
-            <div className="w-full px-3 sm:w-1/2">
-              <div className="mb-8">
+            <div className="w-full px-3 sm:w-1/2 py-3">
+              <div>
                 <label className="mb-3 block text-base font-medium text-[#07074D]">
                   Upload Image
                 </label>
@@ -274,16 +274,17 @@ const ProjectForm = () => {
                     </label>
                   </div>
                 </div>
-                <p className="text-red-500 pt-2">{errors.img}</p>
               </div>
+              <p className="text-red-500 pt-6">{errors.img}</p>
             </div>
-            <div className="w-full px-3 sm:w-1/2">
-              <div className="mb-5">
+            <div className="w-full px-3 sm:w-1/2 py-3">
+              <div>
                 <label className="mb-3 block text-base font-medium text-[#07074D]">
                   Status
                 </label>
                 <select
                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
+                  name="status"
                   value={data.status}
                   onChange={handleChange}
                 >
@@ -293,13 +294,16 @@ const ProjectForm = () => {
                   <option value="Completed">Completed</option>
                 </select>
               </div>
+              <p className="text-red-500">{errors.status}</p>
             </div>
           </div>
-          <div>
+          <div className="mt-4">
             <button
               type="submit"
-              className="hover:shadow-form rounded-md bg-purple-600 hover:bg-purple-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
+              className="hover:shadow-form rounded-md bg-purple-600 hover:bg-purple-500 py-3 px-8 inline-flex gap-1 space-x-2 items-center justify-center text-base font-semibold text-white outline-none"
+              disabled={loader}
             >
+              {loader && <Loader />}
               Submit
             </button>
           </div>
