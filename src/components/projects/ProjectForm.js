@@ -33,11 +33,13 @@ const ProjectForm = () => {
   useEffect(() => {
     if (id) {
       dispatch(fetchProjectDetails(id));
+    } else {
+      setData(initialValues);
     }
   }, [id]);
 
   useEffect(() => {
-    if (projectData) {
+    if (projectData && id) {
       setData({
         projectName: projectData.projectName,
         description: projectData.description,
@@ -48,7 +50,7 @@ const ProjectForm = () => {
         img: projectData.img,
       });
     }
-  }, [projectData]);
+  }, [projectData, id]);
 
   const validateForm = () => {
     const newErrors = {};

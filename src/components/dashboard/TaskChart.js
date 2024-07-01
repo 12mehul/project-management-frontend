@@ -1,16 +1,19 @@
 import dynamic from "next/dynamic";
 import React from "react";
+import Loader from "../common/Loader";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const labels = ["Todo", "In Progress", "In Review", "Completed"];
 const colors = ["#3b82f6", "#eab308", "#FA8B0C", "#009933"];
 
-function getChartData() {
+function getChartData(data) {
+  const chartData = [data.todo, data.inProgress, data.inReview, data.completed];
+
   return {
     series: [
       {
         name: "Tasks",
-        data: [10, 20, 15, 5],
+        data: chartData,
       },
     ],
     options: {
@@ -60,8 +63,15 @@ function getChartData() {
   };
 }
 
-const TaskChart = () => {
-  const chartData = getChartData();
+const TaskChart = ({ data }) => {
+  if (!data)
+    return (
+      <div className="inline-flex justify-center text-lg font-semibold text-blue-600">
+        <Loader />
+      </div>
+    );
+
+  const chartData = getChartData(data);
 
   return (
     <div className="w-full h-[400px] sm:w-[400px] sm:h-[600px] md:w-[500px] md:h-[800px] lg:w-[600px] mx-auto">
