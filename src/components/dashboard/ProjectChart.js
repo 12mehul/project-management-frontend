@@ -1,12 +1,13 @@
 import dynamic from "next/dynamic";
 import React from "react";
+import Loader from "../common/Loader";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const labels = ["Completed", "In Progress", "Not Started"];
 
-function getChartData() {
-  const series = [0, 15, 10];
-  const total = series.reduce((acc, value) => acc + value, 0);
+function getChartData(data) {
+  const series = [data.completed, data.inProgress, data.notStarted];
+
   return {
     series,
     options: {
@@ -51,7 +52,7 @@ function getChartData() {
               fontWeight: 500,
               color: "#404040",
               formatter() {
-                return `${total}`;
+                return `${data.total}`;
               },
             },
           },
@@ -73,8 +74,16 @@ function getChartData() {
   };
 }
 
-const ProjectChart = () => {
-  const chartData = getChartData();
+const ProjectChart = ({ data }) => {
+  if (!data)
+    return (
+      <div className="inline-flex justify-center text-lg font-semibold text-blue-600">
+        <Loader />
+      </div>
+    );
+
+  const chartData = getChartData(data);
+
   return (
     <div className="w-80 h-80 mx-auto">
       <div className="flex flex-row gap-2 justify-center">

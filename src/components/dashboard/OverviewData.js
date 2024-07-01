@@ -1,6 +1,6 @@
 import React from "react";
 
-const OverviewData = () => {
+const OverviewData = ({ data }) => {
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
@@ -24,7 +24,9 @@ const OverviewData = () => {
           </div>
           <div className="text-right">
             <p className="font-semibold">Total Projects</p>
-            <p className="text-2xl text-gray-500">557</p>
+            {data.projects && (
+              <p className="text-2xl text-gray-500">{data.projects.total}</p>
+            )}
           </div>
         </div>
         <div className="bg-white shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-purple-600 text-black font-medium group">
@@ -47,7 +49,9 @@ const OverviewData = () => {
           </div>
           <div className="text-right">
             <p className="font-semibold">Total Tasks</p>
-            <p className="text-2xl text-gray-500">1,257</p>
+            {data.tasks && (
+              <p className="text-2xl text-gray-500">{data.tasks.total}</p>
+            )}
           </div>
         </div>
       </div>
