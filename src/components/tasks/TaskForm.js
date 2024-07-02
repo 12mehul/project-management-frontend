@@ -1,17 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import Loader from "../common/Loader";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTaskDetails } from "@/redux/tasks/actionCreator";
 
-const TaskForm = ({ taskId, handleCloseModal }) => {
-  const [taskData, setTaskData] = useState({
-    taskName: "",
-    description: "",
-    startDate: "",
-    dueDate: "",
-    status: "",
-  });
+const initialValues = {
+  taskName: "",
+  description: "",
+  startDate: "",
+  dueDate: "",
+  status: "",
+};
+
+const TaskForm = ({ projectId, taskId, handleCloseModal }) => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const taskDetails = useSelector((state) => state.tasks.details);
+  const [taskData, setTaskData] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [loader, setLoader] = useState(false);
+
+  const userId =
+    typeof window !== "undefined" ? localStorage.getItem("userId") : null;
 
   const handleBackgroundClick = (e) => {
     if (e.target.classList.contains("popup-background")) {
@@ -19,10 +34,25 @@ const TaskForm = ({ taskId, handleCloseModal }) => {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setTaskData({ ...taskData, [name]: value });
-  };
+  useEffect(() => {
+    if (taskId) {
+      dispatch(fetchTaskDetails(taskId));
+    } else {
+      setTaskData(initialValues);
+    }
+  }, [taskId]);
+
+  useEffect(() => {
+    if (taskDetails && taskId) {
+      setTaskData({
+        taskName: taskDetails.taskName,
+        description: taskDetails.description,
+        startDate: taskDetails.startDate,
+        dueDate: taskDetails.dueDate,
+        status: taskDetails.status,
+      });
+    }
+  }, [taskDetails, taskId]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -47,21 +77,54 @@ const TaskForm = ({ taskId, handleCloseModal }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setTaskData({ ...taskData, [name]: value });
+    setErrors({ ...errors, [name]: "" });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoader(true);
     if (!validateForm()) {
-      setLoader(false);
       return;
     }
-    validateForm();
+    setLoader(true);
 
-    if (taskId) {
-      // Update the task
-      // updateTask(taskId, taskData);
-    } else {
-      // Create a new task
-      // createTask(taskData);
+    try {
+      if (taskId) {
+        const res = await axios.put(`${apiUrl}/tasks/update/${taskId}`, {
+          ...taskData,
+          projectId,
+          userId,
+        });
+        if (res.data) {
+          toast.success(res.data.msg);
+          setLoader(false);
+          setTimeout(() => {
+            handleCloseModal();
+            router.reload();
+          }, 3000);
+        }
+      } else {
+        const res = await axios.post(`${apiUrl}/tasks`, {
+          ...taskData,
+          projectId,
+          userId,
+        });
+        if (res.data) {
+          toast.success(res.data.msg);
+          setLoader(false);
+          setTimeout(() => {
+            handleCloseModal();
+            router.reload();
+          }, 3000);
+        }
+      }
+    } catch (err) {
+      if (err) {
+        setLoader(false);
+        toast.error(err.response.data.msg);
+      }
     }
   };
 
@@ -121,7 +184,11 @@ const TaskForm = ({ taskId, handleCloseModal }) => {
                 <input
                   type="date"
                   name="startDate"
-                  value={taskData.startDate}
+                  value={
+                    taskData.startDate
+                      ? taskData.startDate.split("T")[0]
+                      : taskData.startDate
+                  }
                   onChange={handleChange}
                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
                 />
@@ -136,7 +203,11 @@ const TaskForm = ({ taskId, handleCloseModal }) => {
                 <input
                   type="date"
                   name="dueDate"
-                  value={taskData.dueDate}
+                  value={
+                    taskData.dueDate
+                      ? taskData.dueDate.split("T")[0]
+                      : taskData.dueDate
+                  }
                   onChange={handleChange}
                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
                 />
@@ -165,7 +236,8 @@ const TaskForm = ({ taskId, handleCloseModal }) => {
           <div>
             <button
               type="submit"
-              className="hover:shadow-form flex gap-1 rounded-md bg-purple-600 hover:bg-purple-500 py-2 px-7 text-center text-base font-semibold text-white outline-none"
+              className="hover:shadow-form rounded-md bg-purple-600 hover:bg-purple-500 py-3 px-8 inline-flex gap-1 space-x-2 items-center justify-center text-base font-semibold text-white outline-none"
+              disabled={loader}
             >
               {loader && <Loader />}
               {taskId ? "Update Task" : "Create Task"}
