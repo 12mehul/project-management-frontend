@@ -3,18 +3,19 @@ import { MdDeleteForever } from "react-icons/md";
 import calculateDays from "@/utils/calculateDays";
 import Skelton from "@/components/common/Skelton";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import { FcPlanner } from "react-icons/fc";
 
 const TodoTasks = ({
-  todoTasks,
-  status,
-  taskLoader,
-  handleShowModal,
-  handleDelete,
+  todoTasks = [],
+  status = "",
+  taskLoader = false,
+  handleShowModal = () => {},
+  handleDelete = () => {},
 }) => {
   return (
     <div className="mt-2 min-w-[280px] h-full p-2 shadow-md rounded-lg border border-teal-400">
       <div className="flex pb-4">
-        <p className="font-semibold text-lg text-gray-700 pt-1">
+        <p className="font-semibold text-lg text-gray-600 pt-1">
           Todo ({todoTasks.length})
         </p>
       </div>
@@ -52,9 +53,12 @@ const TodoTasks = ({
                             >
                               {task.taskName}
                             </p>
-                            <span className="text-gray-600">
-                              {calculateDays(task.startDate, task.dueDate)}
-                            </span>
+                            <div className="flex gap-1 mt-5 ml-2">
+                              <FcPlanner className="w-6 h-6" />
+                              <span className="text-gray-600 font-semibold">
+                                {calculateDays(task.startDate, task.dueDate)}
+                              </span>
+                            </div>
                           </div>
                           <button
                             className="flex items-center p-1"

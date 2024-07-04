@@ -10,6 +10,8 @@ import DeleteModal from "../common/DeleteModal";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { DragDropContext } from "react-beautiful-dnd";
+import actions from "@/redux/tasks/actions";
+
 const TodoTasks = dynamic(() => import("./overview/TodoTasks"), { ssr: false });
 const InProgressTasks = dynamic(() => import("./overview/InProgressTasks"), {
   ssr: false,
@@ -26,6 +28,7 @@ const ProjectDetails = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { id } = router.query;
+  const { taskListsSuccess } = actions;
 
   const [deletModal, setDeletModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
@@ -99,18 +102,24 @@ const ProjectDetails = () => {
     if (!result.destination) return;
 
     const { source, destination, draggableId } = result;
-    console.log(result);
+
     if (source.droppableId !== destination.droppableId) {
+      const updatedTasks = tasks.map((task) => {
+        if (task._id === draggableId) {
+          return { ...task, status: destination.droppableId };
+        }
+        return task;
+      });
+      dispatch(taskListsSuccess(updatedTasks));
+
       try {
         const res = await axios.put(`${apiUrl}/tasks/status/${draggableId}`, {
           status: destination.droppableId,
         });
-
         if (res.data) {
-          toast.success("Task status updated successfully");
+          toast.success(res.data.msg);
         }
       } catch (err) {
-        console.log(err);
         toast.error(err.response.data.msg);
       }
     }
