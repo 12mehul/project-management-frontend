@@ -11,9 +11,10 @@ const {
 } = actions;
 
 const initialState = {
-  lists: [],
-  details: "",
   loading: false,
+  lists: [],
+  detailsLoading: false,
+  details: "",
   error: null,
 };
 
@@ -41,18 +42,18 @@ const tasksReducer = (state = initialState, action) => {
     case TASK_DETAILS_BEGIN:
       return {
         ...state,
-        loading: true,
+        detailsLoading: true,
       };
     case TASK_DETAILS_SUCCESS:
       return {
         ...state,
-        loading: false,
+        detailsLoading: false,
         details: data,
       };
     case TASK_DETAILS_FAILURE:
       return {
         ...state,
-        loading: false,
+        detailsLoading: false,
         error: err,
       };
 
