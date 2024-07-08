@@ -10,7 +10,7 @@ const CompletedTasks = ({
   status = "",
   taskLoader = false,
   handleShowModal = () => {},
-  handleDelete = () => {},
+  handleDelete = null,
 }) => {
   return (
     <div className="mt-2 min-w-[280px] h-full p-2 shadow-md rounded-lg border border-teal-400">
@@ -60,12 +60,14 @@ const CompletedTasks = ({
                               </span>
                             </div>
                           </div>
-                          <button
-                            className="flex items-center p-1"
-                            onClick={() => handleDelete(task._id)}
-                          >
-                            <MdDeleteForever className="text-2xl text-red-600" />
-                          </button>
+                          {handleDelete && (
+                            <button
+                              className="flex items-center p-1"
+                              onClick={() => handleDelete(task._id)}
+                            >
+                              <MdDeleteForever className="text-2xl text-red-600" />
+                            </button>
+                          )}
                         </div>
                       </div>
                     )}

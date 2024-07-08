@@ -15,15 +15,15 @@ function calculateDays(startDate, dueDate) {
   if (now < start) {
     // Current date is less than start date
     const daysLeft = daysBetween(now, start);
-    return `${daysLeft} days left`;
+    return `${daysLeft} Days Left`;
   } else if (now > due) {
     // Current date is greater than due date
     const daysOverdue = daysBetween(due, now);
-    return `${daysOverdue} days overdue`;
+    return `${daysOverdue} Days Overdue`;
   } else {
     // Current date is between start date and due date or equal to start or due date
     const daysRemaining = daysBetween(now, due);
-    return `${daysRemaining} days remaining`;
+    return `${daysRemaining} Days Remaining`;
   }
 }
 

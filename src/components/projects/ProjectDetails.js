@@ -12,16 +12,21 @@ import axios from "axios";
 import { DragDropContext } from "react-beautiful-dnd";
 import actions from "@/redux/tasks/actions";
 
-const TodoTasks = dynamic(() => import("./overview/TodoTasks"), { ssr: false });
-const InProgressTasks = dynamic(() => import("./overview/InProgressTasks"), {
+const TodoTasks = dynamic(() => import("../common/TaskStatus/TodoTasks"), {
   ssr: false,
 });
-const InReviewTasks = dynamic(() => import("./overview/InReviewTasks"), {
-  ssr: false,
-});
-const CompletedTasks = dynamic(() => import("./overview/CompletedTasks"), {
-  ssr: false,
-});
+const InProgressTasks = dynamic(
+  () => import("../common/TaskStatus/InProgressTasks"),
+  { ssr: false }
+);
+const InReviewTasks = dynamic(
+  () => import("../common/TaskStatus/InReviewTasks"),
+  { ssr: false }
+);
+const CompletedTasks = dynamic(
+  () => import("../common/TaskStatus/CompletedTasks"),
+  { ssr: false }
+);
 
 const ProjectDetails = () => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
