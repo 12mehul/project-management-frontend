@@ -225,7 +225,7 @@ const TaskForm = ({ projectId, taskId, handleCloseModal }) => {
               onChange={handleChange}
               className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
             >
-              <option>Select Status</option>
+              <option value="Todo">Select Status</option>
               <option value="Todo">Todo</option>
               <option value="InProgress">In Progress</option>
               <option value="InReview">In Review</option>

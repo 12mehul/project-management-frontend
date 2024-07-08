@@ -5,22 +5,22 @@ import Skelton from "@/components/common/Skelton";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { FcPlanner } from "react-icons/fc";
 
-const InReviewTasks = ({
-  inReviewTasks = [],
+const InProgressTasks = ({
+  inProgressTasks = [],
   status = "",
   taskLoader = false,
   handleShowModal = () => {},
-  handleDelete = () => {},
+  handleDelete = null,
 }) => {
   return (
     <div className="mt-2 min-w-[280px] h-full p-2 shadow-md rounded-lg border border-teal-400">
       <div className="flex pb-4">
         <p className="font-semibold text-lg text-gray-600 pt-1">
-          In Review ({inReviewTasks.length})
+          In Progress ({inProgressTasks.length})
         </p>
       </div>
       {taskLoader ? (
-        <div className="min-w-[260px] min-h-[180px] flex flex-col justify-between border-t-2 border-orange-600 rounded-md transition duration-500 shadow-md hover:shadow-teal-400">
+        <div className="min-w-[260px] min-h-[180px] flex flex-col justify-between border-t-2 border-yellow-500 rounded-md transition duration-500 shadow-md hover:shadow-teal-400">
           <Skelton />
         </div>
       ) : (
@@ -31,8 +31,8 @@ const InReviewTasks = ({
               ref={provided.innerRef}
               className="flex flex-col gap-2"
             >
-              {inReviewTasks.length > 0 ? (
-                inReviewTasks.map((task, index) => (
+              {inProgressTasks.length > 0 ? (
+                inProgressTasks.map((task, index) => (
                   <Draggable
                     key={task._id}
                     draggableId={task._id}
@@ -43,7 +43,7 @@ const InReviewTasks = ({
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
-                        className="min-w-[260px] min-h-[180px] flex flex-col justify-between border-t-2 border-orange-600 rounded-md transition duration-500 shadow-md hover:shadow-teal-400"
+                        className="min-w-[260px] min-h-[180px] flex flex-col justify-between border-t-2 border-yellow-500 rounded-md transition duration-500 shadow-md hover:shadow-teal-400"
                       >
                         <div className="p-4 flex justify-between items-start">
                           <div>
@@ -60,19 +60,21 @@ const InReviewTasks = ({
                               </span>
                             </div>
                           </div>
-                          <button
-                            className="flex items-center p-1"
-                            onClick={() => handleDelete(task._id)}
-                          >
-                            <MdDeleteForever className="text-2xl text-red-600" />
-                          </button>
+                          {handleDelete && (
+                            <button
+                              className="flex items-center p-1"
+                              onClick={() => handleDelete(task._id)}
+                            >
+                              <MdDeleteForever className="text-2xl text-red-600" />
+                            </button>
+                          )}
                         </div>
                       </div>
                     )}
                   </Draggable>
                 ))
               ) : (
-                <div className="min-w-[260px] min-h-[180px] flex flex-col items-center justify-center border-t-2 border-orange-600 rounded-md transition duration-500 shadow-md hover:shadow-teal-400">
+                <div className="min-w-[260px] min-h-[180px] flex flex-col items-center justify-center border-t-2 border-yellow-500 rounded-md transition duration-500 shadow-md hover:shadow-teal-400">
                   <p className="font-semibold text-lg text-gray-700 pt-1">
                     No Tasks
                   </p>
@@ -87,4 +89,4 @@ const InReviewTasks = ({
   );
 };
 
-export default InReviewTasks;
+export default InProgressTasks;
