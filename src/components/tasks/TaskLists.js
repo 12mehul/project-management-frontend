@@ -8,6 +8,7 @@ import axios from "axios";
 import actions from "@/redux/tasks/actions";
 import { fetchProjectLists } from "@/redux/projects/actionCreator";
 import { fetchAllTaskLists } from "@/redux/tasks/actionCreator";
+import TaskDetails from "./TaskDetails";
 
 const TodoTasks = dynamic(() => import("../common/TaskStatus/TodoTasks"), {
   ssr: false,
@@ -33,16 +34,19 @@ const TaskLists = () => {
   const [showModal, setShowModal] = useState(false);
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [currentTaskId, setCurrentTaskId] = useState(null);
 
   const projects = useSelector((state) => state.projects.lists);
   const taskLoader = useSelector((state) => state.tasks.loading);
   const tasks = useSelector((state) => state.tasks.lists);
 
-  const handleShowModal = () => {
+  const handleShowModal = (taskId = null) => {
+    setCurrentTaskId(taskId);
     setShowModal(true);
   };
   const handleCloseModal = () => {
     setShowModal(false);
+    setCurrentTaskId(null);
   };
 
   const userId =
@@ -171,6 +175,12 @@ const TaskLists = () => {
           </DragDropContext>
         </div>
       </div>
+      {showModal && (
+        <TaskDetails
+          taskId={currentTaskId}
+          handleCloseModal={handleCloseModal}
+        />
+      )}
     </>
   );
 };

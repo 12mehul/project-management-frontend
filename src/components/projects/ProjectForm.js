@@ -290,7 +290,7 @@ const ProjectForm = () => {
                   value={data.status}
                   onChange={handleChange}
                 >
-                  <option>Select Status</option>
+                  <option value="NotStarted">Select Status</option>
                   <option value="NotStarted">Not Started</option>
                   <option value="InProgress">In Progress</option>
                   <option value="Completed">Completed</option>
