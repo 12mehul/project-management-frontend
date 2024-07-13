@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import { BsSendCheck } from "react-icons/bs";
 import toast from "react-hot-toast";
@@ -9,11 +9,15 @@ import Link from "next/link";
 import calculateDays from "@/utils/calculateDays";
 import { formatDate } from "@/utils/formatDate";
 import Loader from "../common/Loader";
+import actions from "@/redux/tasks/actions";
 
 const TaskDetails = ({ taskId, handleCloseModal }) => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const dispatch = useDispatch();
+  const { taskDetailsSuccess } = actions;
 
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
   const loader = useSelector((state) => state.tasks.detailsLoading);
   const tasks = useSelector((state) => state.tasks.details);
 
@@ -33,13 +37,35 @@ const TaskDetails = ({ taskId, handleCloseModal }) => {
   const [number, ...textParts] = calDate.split(" ");
   const text = textParts.join(" ");
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name) {
+      setError("Please enter your message");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${apiUrl}/tasks/comment/${tasks._id}`,
+        { name }
+      );
+      if (response.data) {
+        setName("");
+        dispatch(taskDetailsSuccess(response.data.task));
+        toast.success(response.data.msg);
+      }
+    } catch (err) {
+      toast.error(err.response.data.msg);
+    }
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center overflow-y-auto">
       <div
         className="fixed inset-0 bg-gray-500 opacity-40 popup-background"
         onClick={handleBackgroundClick}
       ></div>
-      <div className="relative bg-white w-[700px] border rounded-lg p-6">
+      <div className="relative bg-white w-full max-w-[700px] border rounded-lg p-6 mx-4">
         <div className="flex justify-between mb-3">
           <h1 className="text-base font-bold text-gray-700">Task Detail</h1>
           <button
@@ -122,14 +148,52 @@ const TaskDetails = ({ taskId, handleCloseModal }) => {
                   <input
                     type="text"
                     name="name"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      setError("");
+                    }}
                     placeholder="Enter your message"
                     className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-purple-400 focus:shadow-md"
                   />
-                  <button className="flex items-center justify-center p-3 rounded-md bg-purple-600 hover:bg-purple-500">
+                  <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className="flex items-center justify-center p-3 rounded-md bg-purple-600 hover:bg-purple-500"
+                  >
                     <BsSendCheck className="text-2xl text-white font-bold" />
                   </button>
                 </div>
+                {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
               </div>
+              {tasks.comments.length > 0 && (
+                <div className="w-full my-4 p-3 rounded-md border border-gray-200 shadow-md max-h-24 overflow-y-auto">
+                  <div className="w-full overflow-x-auto">
+                    <div className="min-w-[500px]">
+                      <div className="flex justify-between">
+                        <h3 className="text-sm font-medium text-gray-600">
+                          Comment
+                        </h3>
+                        <h3 className="text-sm font-medium text-gray-600">
+                          Date
+                        </h3>
+                      </div>
+                      <div className="mt-2 flex flex-col gap-2">
+                        {tasks.comments.map((item) => (
+                          <div key={item._id} className="flex justify-between">
+                            <span className="max-w-96 text-base font-medium text-gray-500">
+                              {item.name}
+                            </span>
+                            <span className="text-base font-medium text-purple-600">
+                              {formatDate(item.createdDate)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )
         )}
